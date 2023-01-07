@@ -34,11 +34,15 @@ public class checkOutSteps {
         Thread.sleep(5000);
     }
 
-    @And("User add an item and open the shopping cart")
-    public void chooseItem() throws InterruptedException {
+    @And("User add \"(.*)\" to cart")
+    public void chooseItem(String products) throws InterruptedException {
         HomePage homePage = new HomePage(webDriver);
-        homePage.itemContainerDisp();
-        homePage.chooseItem();
+        homePage.chooseItem(products);
+    }
+
+    @And("User click the shopping cart")
+    public void clickShoppingCart() throws InterruptedException{
+        HomePage homePage = new HomePage(webDriver);
         homePage.clickCartBtn();
         Thread.sleep(5000);
     }
@@ -50,12 +54,22 @@ public class checkOutSteps {
         Assert.assertEquals(cartList2, cartPage.getItemList2());
     }
 
-    @And("User Remove one of item in the shopping cart")
-    public void removeCartItem() throws InterruptedException {
+    @And("User Remove \"(.*)\" in the shopping cart")
+    public void removeItemCart(String delItem) throws InterruptedException{
         CartPage cartPage = new CartPage(webDriver);
-        cartPage.clickRemoveBtn();
-        Thread.sleep(5000);
+        cartPage.removeItemList(delItem);
+    }
+
+    @Then("User click the Checkout Button")
+    public void clickCheckOut(){
+        CartPage cartPage = new CartPage(webDriver);
+        cartPage.clickCheckOutBtn();
     };
 
+    @And("User input shipping information")
+    public void inputShipping(){
+        CartPage cartPage = new CartPage(webDriver);
+        cartPage.inputInformationShip();
+    }
 
 }

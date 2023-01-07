@@ -21,11 +21,8 @@ public class HomePage {
     @FindBy(xpath ="//select[@class='product_sort_container']")
     private WebElement sortFilter;
 
-    @FindBy(xpath = "//button[@id='add-to-cart-test.allthethings()-t-shirt-(red)']")
-    private WebElement addToCartBtn;
-
-    @FindBy(xpath = "//button[@id='add-to-cart-sauce-labs-onesie']")
-    private WebElement addToCartBtn2;
+    @FindBy(className = "inventory_list")
+    private WebElement productContainer;
 
     @FindBy(xpath = "//div[@id='shopping_cart_container']")
     private WebElement cartButton;
@@ -45,13 +42,21 @@ public class HomePage {
         return true;
     }
 
-    public void chooseItem(){
-        addToCartBtn.click();
-        addToCartBtn2.click();
+    public void chooseItem(String products) throws InterruptedException{
+        String[] productList = products.split(",");
+        WebElement selectedProduct;
+        System.out.println("check out product");
+        for (String productName:
+                productList) {
+            String xPathSelectedProduct =  "//button[@id='add-to-cart-"+ productName.toLowerCase().replace(" ","-") +"']";
+            selectedProduct = productContainer.findElement(By.xpath(xPathSelectedProduct));
+            selectedProduct.click();
+        }
+        Thread.sleep(5000);
     }
 
     public void clickCartBtn(){
-      cartButton.click();
+        cartButton.click();
     };
 
 }
