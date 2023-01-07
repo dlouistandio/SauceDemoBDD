@@ -3,6 +3,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import gherkin.lexer.Th;
 import org.example.pageObject.CartPage;
 import org.example.pageObject.HomePage;
 import org.example.pageObject.LoginPage;
@@ -54,6 +55,14 @@ public class checkOutSteps {
         Assert.assertEquals(cartList2, cartPage.getItemList2());
     }
 
+    @And("The Checkout summary must contains \"(.*)\",\"(.*)\", and \"(.*)\"")
+    public void verifySummary(String subTotal,String taxTotal, String total){
+        CartPage cartPage = new CartPage(webDriver);
+        Assert.assertEquals(subTotal, cartPage.getSubTotal());
+        Assert.assertEquals(taxTotal, cartPage.getTaxtotal());
+        Assert.assertEquals(total, cartPage.getTotal());
+    }
+
     @And("User Remove \"(.*)\" in the shopping cart")
     public void removeItemCart(String delItem) throws InterruptedException{
         CartPage cartPage = new CartPage(webDriver);
@@ -64,7 +73,7 @@ public class checkOutSteps {
     public void clickCheckOut(){
         CartPage cartPage = new CartPage(webDriver);
         cartPage.clickCheckOutBtn();
-    };
+    }
 
     @And("User input shipping information")
     public void inputShipping(){
@@ -72,4 +81,24 @@ public class checkOutSteps {
         cartPage.inputInformationShip();
     }
 
+    @And("User click the Continue Button")
+    public void clickContinueShipBtn() throws InterruptedException {
+        CartPage cartPage = new CartPage(webDriver);
+        cartPage.clickContinueShipBtn();
+        Thread.sleep(5000);
+    }
+
+    @And("User clicked finish button")
+    public void clickFinishBtn() throws InterruptedException {
+        CartPage cartPage = new CartPage(webDriver);
+        cartPage.clickFinishBtn();
+        Thread.sleep(5000);
+    }
+
+    @Then("User will see \"(.*)\" message")
+    public void getThankYouText(String tyText) throws InterruptedException {
+        CartPage cartPage = new CartPage(webDriver);
+        Assert.assertEquals(tyText, cartPage.getThankYouText());
+        Thread.sleep(3000);
+    }
 }
